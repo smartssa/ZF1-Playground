@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="models">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="model" minOccurs="1" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="foreignkey" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="reference" minOccurs="0"
+											maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:attribute name="local" use="required" />
+												<xs:attribute name="foreign" use="required" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="model" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="source" minOccurs="1" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="fields" minOccurs="1" maxOccurs="1">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="field" minOccurs="1"
+														maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:attribute name="sourceField" use="required" />
+															<xs:attribute name="sourceType" use="required" />
+															<xs:attribute name="modelField" use="required" />
+															<xs:attribute name="modelType" use="required" />
+															<xs:attribute name="primary" />
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="query" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="sql" minOccurs="1" maxOccurs="1" />
+													<xs:element name="db" minOccurs="1" maxOccurs="1" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="type" use="required" />
+									<xs:attribute name="name" use="required" />
+
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="name" use="required" />
+						<xs:attribute name="readmaster" type="xs:string" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,76 @@
+body {
+	font-family: Verdana;
+	font-size: 12pt;
+}
+
+pre,code {
+	font-family: Courier New, monospace;
+}
+
+h1 {
+	font-size: 1.6em;
+	margin: 10px;
+}
+
+h2 {
+	font-size: 1.4em;
+	margin: 10px;
+}
+
+h3 {
+	font-size: 1.3em;
+	margin: 10px;
+}
+
+p {
+	font-size: 1em;
+	margin: 10px;
+}
+
+table {
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+th {
+	font-weight: bold;
+	padding: 5px;
+}
+
+tr {
+	
+}
+tbody tr:hover {
+	background: #efefef;
+}
+td {
+	padding: 5px;
+}
+
+/* grid stuff */
+#header {
+	height: 111px;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 1em;
+}
+
+#header ul li {
+	display: inline;
+	padding-right: 1em;
+}
+
+#content {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid black;
+	padding: 1em;
+}
+
+/* goofy classes */
+.float-left {
+	float: left;
+}

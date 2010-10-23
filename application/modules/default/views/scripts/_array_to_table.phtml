@@ -1,0 +1,15 @@
+<table>
+<thead>
+<tr><th>Description</th><th>Time <br/>(seconds)</th><th>Memory <br/>Start (MB)</th><th>Memory <br/>Finish (MB)</th></tr>
+</thead>
+<tbody>
+<?php foreach ($this->results as $rownumb => $row): ?>
+<tr>
+    <td><?php echo $row['description']?></td>
+    <td><?php echo $row['time']?></td>
+    <td><?php echo $row['memorys']?></td>
+    <td><?php echo $row['memoryf']?></td>
+</tr>
+<?php endforeach;?>
+</tbody>
+</table>

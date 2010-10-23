@@ -1,0 +1,72 @@
+<models xmlns:xs="mapper-schema.xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="mapper-schema.xml">
+	<model name="Profile">
+		<source type="db" name="profiles">
+			<fields>
+				<field sourceField="pr_id" sourceType="int" modelField="profileId"
+					modelType="int" primary="true" />
+			</fields>
+			<query>
+				<sql>SELECT pr_id FROM profiles
+					WHERE pr_id = :profileId
+				</sql>
+				<db>datingdb_sexsearch</db>
+			</query>
+		</source>
+	</model>
+	<model name="ProfileFlags" readmaster="true">
+		<foreignkey model="Profile">
+			<reference local="pf_pr_id" foreign="pr_id" />
+			<reference local="uc_pr_id" foreign="pr_id" />
+		</foreignkey>
+		<source type="db" name="profiles">
+			<fields>
+				<field sourceField="pr_screenname" sourceType="string"
+					modelField="screenName" modelType="string" />
+			</fields>
+			<query>
+				<sql>SELECT pr_screenname FROM profiles
+					WHERE pr_id = :profileId
+				</sql>
+				<db>datingdb_sexsearch</db>
+			</query>
+		</source>
+		<source type="db" name="profile_flags">
+			<fields>
+				<field sourceField="pf_pr_id" sourceType="int" modelField="profileId"
+					modelType="int" primary="true" />
+				<field sourceField="pf_online_now" sourceType="int"
+					modelField="onlineNow" modelType="bool" />
+				<field sourceField="pf_erotic_content" sourceType="int"
+					modelField="eroticContent" modelType="bool" />
+			</fields>
+			<query>
+				<sql>SELECT pf_online_now, pf_erotic_content FROM profile_flags
+					WHERE pf_pr_id = :profileId</sql>
+				<db>datingdb_sexsearch</db>
+			</query>
+		</source>
+		<source type="uc" name="mail_flags">
+			<fields>
+				<field sourceField="uc_pr_id" sourceType="int" modelField="ucDummyId"
+					modelType="int" />
+				<field sourceField="pf_master_mail" sourceType="int"
+					modelField="mailMaster" modelType="int" />
+				<field sourceField="pf_mail_tickler" sourceType="int"
+					modelField="mailTickler" modelType="int" />
+			</fields>
+		</source>
+	</model>
+	<model name="Test">
+		<source type="db" name="profiles">
+			<fields>
+				<field sourceField="pr_id" sourceType="int" modelField="profileId"
+					modelType="int" primary="true" />
+			</fields>
+			<query>
+				<sql>SELECT pr_id FROM profiles WHERE pr_id = :profileId</sql>
+				<db>datingdb_sexsearch</db>
+			</query>
+		</source>
+	</model>
+</models>
