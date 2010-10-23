@@ -10,7 +10,6 @@ class PartyControllerTest extends PG_Test_PHPUnit_ControllerTestCase
     public function testIndexAction()
     {
         $this->dispatch('/party');
-        $this->assertRedirect();
         // test the redirect?
         $this->assertRoute('default');
     }
