@@ -49,5 +49,10 @@ class TestController extends Zend_Controller_Action
 
         $this->view->results = $results;
     }
+    
+    public function somethingElseAction() 
+    {
+        // view only.
+    }
 }
 

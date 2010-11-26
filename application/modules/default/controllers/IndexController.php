@@ -34,6 +34,9 @@ class IndexController extends PG_Controller_Action
         $this->view->testResults = $return;
     }
 
-
+    public function testAction()
+    {
+        
+    }
 }
 
