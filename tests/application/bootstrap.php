@@ -15,6 +15,9 @@ set_include_path(implode(PATH_SEPARATOR, array(
 date_default_timezone_set('EST');
 
 /** Zend_Application */
+require_once 'Zend/Loader/Autoloader.php';
+Zend_Loader_Autoloader::getInstance()->registerNamespace('PG_');
+Zend_Loader_Autoloader::getInstance()->registerNamespace('DEC_');
 require_once 'Zend/Application.php';
 $application = new Zend_Application(
     APPLICATION_ENV,
