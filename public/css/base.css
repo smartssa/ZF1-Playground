@@ -1,5 +1,7 @@
+html {
+	font-family: Arial, Verdana, Tahoma;
+}
 body {
-	font-family: Verdana;
 	font-size: 12pt;
 }
 
@@ -24,6 +26,7 @@ h3 {
 
 p {
 	font-size: 1em;
+	line-height: 1.2em;
 	margin: 10px;
 }
 
@@ -68,7 +71,7 @@ td {
 }
 
 #content {
-	width: 80%;
+	width: 975px;
 	margin-left: auto;
 	margin-right: auto;
 	border: 1px solid black;

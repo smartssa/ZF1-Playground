@@ -1,0 +1,59 @@
+<h1>Concepts on Zend Navigation</h1>
+
+<p>The top navigation bar on this site is built using Zend_Zavigation.</p>
+
+<p>The top portion (level 1) remains the same for all pages as it's the
+parent.</p>
+<p>This is accomplished by using the built in view helpers and only
+rendering the first level:</p>
+<pre class="code">
+<code class="php">
+<?php echo htmlentities("
+<?php
+    \$options = array('maxDepth' => 0);
+    echo \$this->navigation()->menu()->setAcl(\$this->acl)->renderMenu(null, \$options); ?>");?>
+</code>
+</pre>
+
+<p>The sub navigation (level 2) changes based on the context of the
+current page.</p>
+
+<pre class="code">
+<code class="php">
+<?php echo htmlentities("
+<?php 
+    \$options = array('maxDepth' => 1, 'onlyActiveBranch' => true, 'renderParents' => false);
+    echo \$this->navigation()->menu()->setAcl(\$this->acl)->renderMenu(null, \$options);?>");?>
+</code></pre>
+
+<p>The breand crumbs are also rendered on every page using the default
+helper.</p>
+<p>Take note that I pass to the view helper an ACL object. I'll probably
+explain this on another page, but Zend_Navigation will use the
+'resource' and 'privilege' configuration options to decide if it should
+render an element based on the ACL.</p>
+
+<p>I bootstrap the navigation resource like any normal person;</p>
+
+<pre class="code">
+<code class="php">
+<?php 
+echo htmlentities("
+protected function _initNavigation() {
+    \$conf = new Zend_Config_Xml(APPLICATION_PATH . '/configs/navigation.xml', 'nav');
+    \$nav  = new Zend_Navigation();
+    \$nav->addPages(\$conf);
+    Zend_registry::set('Zend_Navigation', \$nav);
+}");?>
+</code></pre>
+
+<p>It uses this XML file as navigation.xml:</p>
+
+<pre class="code">
+<code class="xml">
+<?php echo htmlentities(file_get_contents(APPLICATION_PATH . '/configs/navigation.xml'), true); ?>
+</code>
+</pre>
+
+<p>Navigation is used on all pages.</p>
+

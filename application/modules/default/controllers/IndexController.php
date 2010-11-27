@@ -25,16 +25,22 @@ class IndexController extends PG_Controller_Action
         $this->view->date = new Zend_Date();
     }
 
-    /**
-     * Enter description here ...
-     */
-    public function runTestsAction()
+    public function navigationAction()
     {
-        $return = shell_exec(APPLICATION_PATH . '/../tests/run-tests.sh');
-        $this->view->testResults = $return;
+
     }
 
-    public function testAction()
+    public function loggingAction()
+    {
+
+    }
+
+    public function cachingAction()
+    {
+
+    }
+    
+    public function sessionsAction()
     {
         
     }

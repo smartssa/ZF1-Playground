@@ -1,0 +1,93 @@
+<h1>Concepts on Logging</h1>
+
+<p>This has been posted to my blog - You can comment and discuss there:
+<a href="http://darrylclarke.com/2010/11/27/just-a-log/">Just a Log</a></p>
+
+<p>Applications, especially ones that run over and over again with zero
+persistancy (of the application itself) like a web app needs logging.
+It's important to be able to log different types of messages to
+different places and fortunately Zend_Log is so extensible that it can
+log to almost anything you can think of.</p>
+
+<p>My typically logging setup consists of multiple log writers
+configured in Zend_Log to allow me to control where and how certain
+messages get logged.</p>
+
+<p>Broken down into logging levels I usually have 'debug', 'info',
+'notice' all sent to a single file and not enabled in production.
+Warnings and Errors are usually considered runtime-issues that are not
+"omg! it's broken!" issues, so they get logged to a file and are enabled
+on production. The last three levels, 'alert', 'crit', 'emerg' are all
+considered to be top priority - aka - your application is failing. And
+as such these get logged to a file and emailed immediately to a person
+of importance.</p>
+
+<p>In all cases, in my development environment, all log messages utilize
+Zend's Firebug support.</p>
+
+<p>Fortunately Zend_Log supports all this complexity with a very simple
+set of configuration options.</p>
+
+<p>It's all done with a few lines of settings in your application.ini
+file and voila, magic.</p>
+
+<p>Here's how to bootstrap your logger and set it to a Zend_Registry key
+for easy use:</p>
+
+<pre class="code">
+<code class="php">
+protected function _initRegisterLogger() {
+    $this->bootstrap('Log');
+    $logger = $this->getResource('Log');
+    Zend_Registry::set('Zend_Log', $logger);
+}
+</code>
+</pre>
+
+<p>And here's a sample application.ini - with omitted portions so you
+can just see the logging items.</p>
+<pre class="code">
+<code class="php">
+[production]
+; the operand param doesn't allow for y > 4 & y < 7 so we need multiple writers.
+resources.log.production.writerName = "Stream"
+resources.log.production.writerParams.stream = APPLICATION_PATH "/logs/production-critical.log"
+resources.log.production.filterName = "Priority"
+resources.log.production.filterParams.priority = 3
+resources.log.production.filterParams.operand  = "<"
+resources.log.production1.writerName = "Stream"
+resources.log.production1.writerParams.stream = APPLICATION_PATH "/logs/production-errors.log"
+resources.log.production1.FilterName = "Priority"
+resources.log.production1.filterParams.priority = 4
+resources.log.production1.filterParams.operand  = "="
+resources.log.production2.writerName = "Stream"
+resources.log.production2.writerParams.stream = APPLICATION_PATH "/logs/production-warning.log"
+resources.log.production2.filterName = "Priority"
+resources.log.production2.filterParams.priority = 5
+resources.log.production2.filterParams.operand  = "="
+
+[testing : production]
+resources.log.testing.writerName = "Stream"
+resources.log.testing.writerParams.stream = APPLICATION_PATH "/logs/testing-notices.log"
+resources.log.testing.filterName = "Priority"
+resources.log.testing.filterParams.priority = 5
+resources.log.testing.filterParams.operand  = "="
+resources.log.testing1.writerParams.stream = APPLICATION_PATH "/logs/testing-info.log"
+resources.log.testing1.filterName = "Priority"
+resources.log.testing1.filterParams.priority = 6
+resources.log.testing1.filterParams.operand  = "="
+
+[development : testing]
+; this logs all messages 
+resources.log.testing.writerName = "Stream"
+resources.log.testing.writerParams.stream = APPLICATION_PATH "/logs/debug.log"
+resources.log.testing1.filterName = "Priority"
+resources.log.testing1.filterParams.priority = 7
+resources.log.testing1.filterParams.operand  = "="
+; no filter on firebug, logs everything.
+resources.log.firebug.writerName = "Firebug" 
+
+</code>
+</pre>
+
+<p>Logging is used all over this demo site.</p>

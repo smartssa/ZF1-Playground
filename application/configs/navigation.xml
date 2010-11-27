@@ -8,6 +8,26 @@
 			<route>default</route>
 			<class>ajaxnavloader</class>
 			<pages>
+				<sessions>
+					<label>Sessions</label>
+					<action>sessions</action>
+					<class>ajaxloader</class>
+				</sessions>
+				<caching>
+					<label>Caching</label>
+					<action>caching</action>
+					<class>ajaxloader</class>
+				</caching>
+				<logging>
+					<label>Logging</label>
+					<action>logging</action>
+					<class>ajaxloader</class>
+				</logging>
+				<navigation>
+					<label>Navigation</label>
+					<action>navigation</action>
+					<class>ajaxloader</class>
+				</navigation>
 				<about>
 					<label>Blog</label>
 					<uri>http://darrylclarke.com/</uri>

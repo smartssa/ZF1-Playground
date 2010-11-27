@@ -1,0 +1,42 @@
+<h1>Concepts on Caching</h1>
+
+<p>Caching is a key to performance in any site. Fast caches like
+Memcache and APC are integral to a sites ability to keep up with the
+hits.</p>
+
+<p>Throughout this demo site and tied into every application I've ever
+created lies a caching strategy which is fairly simple. Cache the end
+results of an expensive process. A lot of people cache in multiple
+locations, and that's fine. But if you cache the results of an SQL
+query, then iterate through that result and generate large html - you
+should probably cache the HTML instead of the query result. There's no
+harm in caching both if you have the capacity to do so.</p>
+
+<p>I use APC strictly for opcode caching and I use memcache strictly for
+application level caching.</p>
+
+<p>There are many, many, many ways in which you can use memcache within
+an application - so many I don't think I can explain a lot here.</p>
+
+<p>Some concepts:</p>
+<ul>
+	<li>Cache a Query - Extend Zend_Db_Table to check cache for a stored
+	result set and return it instead of hitting the database.</li>
+	<li>Cache HTML - when you can, cache fully rendered pages.</li>
+	<li>Cache parts of HTML - After you've processed your data set and
+	rendered a chunk of html, save it.</li>
+	<li>Cache config files - These files hardly change, caching them
+	long-term (using the Zend Cache File frontend is helpful)</li>
+</ul>
+
+<p>Things to avoid:</p>
+<ul>
+	<li>Caching light things - If it takes you 10ms to fetch something from
+	cache and it takes you 9ms to generate it over again - DON'T CACHE IT.</li>
+</ul>
+
+<p>Deciding on caching rules takes some time, testing and decisions. The
+general "Cache all!" rule is not effective in all situations.</p>
+
+<p>Using Zend_Cache is pretty simple and standard so I'm not really
+going to go into it. It's used in various parts of this demo site.</p>

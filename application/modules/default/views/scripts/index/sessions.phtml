@@ -1,0 +1,18 @@
+<h1>Concepts on Sessions</h1>
+
+<p>Zend framework makes sessions dead easy.</p>
+
+<p>By default it'll use the session storage engine provided by PHP and
+it'll "just work." But sometimes that's not enough.</p>
+
+<p>There are many ways you can store session data and Zend Framework
+lets you easily extend that system by providing the Zend Session Storage
+Adapter.</p>
+
+<p>Personally, I store my session data in a database. Sometimes this
+isn't the best or fastest idea and for the most part I should be using
+memcache or memcachedb for storage of sessions.</p>
+
+<p>For the sake of this demo site, there's not much to show off for
+session handling. Some of the API calls used will store things in
+sessions but they will strictly utilize Zend Session Namespace and that's it.</p>

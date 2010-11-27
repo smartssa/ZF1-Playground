@@ -1,16 +1,11 @@
 <?php
 
-class TestController extends Zend_Controller_Action
+class TestController extends PG_Controller_Action
 {
 
     public function init()
     {
-        /* Initialize action controller here */
-        if ($this->getRequest()->isXMLHttpRequest()) {
-            $this->_helper->layout()->setLayout('blank');
-            $logger = $this->getInvokeArg('bootstrap')->getResource('Log');
-            $logger->debug('AJAX Call');
-        }
+         parent::init();
     }
 
     public function indexAction()
