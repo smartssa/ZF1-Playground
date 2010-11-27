@@ -16,17 +16,20 @@
 <div id="header">
     <div class="float-left"><img src="/images/slide.jpg" alt="slide" /></div>
     <h1>The Playground</h1>
-    <ul>
-        <li><a href="<?php echo $this->url(array('controller' => 'index'), null, true); ?>">Home</a></li>
-        <li><a href="<?php echo $this->url(array('controller' => 'super'), null, true); ?>">Super</a></li>
-        <li><a href="<?php echo $this->url(array('controller' => 'party'), null, true); ?>">Party</a></li>
-        <li><a href="<?php echo $this->url(array('controller' => 'test'), null, true); ?>">Random BM/UI Tests</a></li>
-        <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'run-tests'), null, true); ?>">Run Unit Tests</a></li>
-    </ul>
+    <?php 
+    
+    $options = array('maxDepth' => 0);
+    echo $this->navigation()->menu()->setAcl($this->acl)->renderMenu(null, $options); ?>
+    <div id="subnav">
+    <?php 
+    $options = array('maxDepth' => 1, 'onlyActiveBranch' => true, 'renderParents' => false);
+    echo $this->navigation()->menu()->setAcl($this->acl)->renderMenu(null, $options);
+    ?></div>
 </div>
 <div id="content">
+    <p><?php echo $this->navigation()->breadcrumbs(); ?></p>
     <h1><?php echo $this->title; ?></h1>
     <?php echo $this->layout()->content; ?>
 </div>
-<h2 style="text-align: center;">I am A Demo/Test Site Only!</h2>
+<h2 style="text-align: center;"> - THIS IS A DEMO SITE ONLY - </h2>
 </body>

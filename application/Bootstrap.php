@@ -21,6 +21,17 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     
     protected function _initRoutes() {
         // setup routes here.
+        $this->bootstrap('frontcontroller');
+        $front  = $this->getResource('frontcontroller');
+        $router = $front->getRouter();
+        $config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/routes.ini', 'routes');
+        $router->addConfig($config->routes);
     }
 
+    protected function _initNavigation() {
+        $conf = new Zend_Config_Xml(APPLICATION_PATH . '/configs/navigation.xml', 'nav');
+        $nav  = new Zend_Navigation();
+        $nav->addPages($conf);
+        Zend_registry::set('Zend_Navigation', $nav);
+    }
 }
