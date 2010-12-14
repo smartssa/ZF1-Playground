@@ -18,7 +18,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $logger = $this->getResource('Log');
         Zend_Registry::set('Zend_Log', $logger);
     }
-    
+
     protected function _initRoutes() {
         // setup routes here.
         $this->bootstrap('frontcontroller');
@@ -34,4 +34,26 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $nav->addPages($conf);
         Zend_registry::set('Zend_Navigation', $nav);
     }
+
+    public function _initErrorHandler()
+    {
+        // make sure the frontcontroller has been setup
+        $this->bootstrap('frontcontroller');
+        $frontController = $this->getResource('frontcontroller');
+        // option from the config file
+        $pluginOptions   = $this->getOption('errorhandler');
+        $className       = $pluginOptions['class'];
+
+        // I'm using zend_loader::loadClass() so it will throw exception if the class is invalid.
+        try {
+            Zend_Loader::loadClass($className);
+            $plugin          = new $className($pluginOptions['options']);
+            $frontController->registerPlugin($plugin);
+            return $plugin;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+
 }

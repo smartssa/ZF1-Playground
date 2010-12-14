@@ -9,14 +9,15 @@ $(function() {
 	$('.ajaxloader').click(function(event) {
 		var target = $(this).attr('href');
 		window.location.hash = target;
-		$('#content').fadeOut('slow', function() {
+		$('#content').fadeOut('fast', function() {
 			// complete fadeout, load new content while it's hiding!
 			$.ajax( {
 				url : target,
 				success : function(data) {
 					$('#content').html(data);
-					$('#content').fadeIn();
-					$.beautyOfCode.beautifyAll();
+					$('#content').fadeIn('slow', function() {
+						$.beautyOfCode.beautifyAll();
+					});
 				}
 			});
 		});

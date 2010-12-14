@@ -22,7 +22,16 @@ class PartyController extends PG_Controller_Action
      */
     public function indexAction()
     {
+        $urls = array(
+        array('url' => 'http://shit.x.bjca.net/server-status?auto', 'limit' => 10),
+        array('url' => 'http://sixnine.flatlinesystems.net/server-status?auto', 'limit' => 100),
+        array('url' => 'http://twofour.flatlinesystems.net/server-status?auto', 'limit' => 30)
+        );
 
+        foreach ($urls as $host) {
+            $pants[] = new DEC_Status_Apache($host['url'], $host['limit']);
+        }
+        $this->view->pants = $pants;
     }
 
     /**

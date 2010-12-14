@@ -34,6 +34,47 @@
 				</about>
 			</pages>
 		</home>
+		<users>
+			<label>Users</label>
+			<controller>users</controller>
+			<action>index</action>
+			<route>default</route>
+			<class>ajaxnavloader</class>
+			<pages>
+				<register>
+					<label>Registration</label>
+					<controller>users</controller>
+					<action>register</action>
+					<route>default</route>
+					<class>ajaxloader</class>
+					<resource>unauthenticated</resource>
+				</register>
+				<profile>
+					<label>Profile</label>
+					<controller>users</controller>
+					<action>profile</action>
+					<route>default</route>
+					<class>ajaxloader</class>
+					<resource>authenticated</resource>
+				</profile>
+				<login>
+					<label>Login</label>
+					<controller>users</controller>
+					<action>login</action>
+					<route>default</route>
+					<class>ajaxloader</class>
+					<resource>unauthenticated</resource>
+				</login>
+				<logout>
+					<label>Logout</label>
+					<controller>users</controller>
+					<action>logout</action>
+					<route>default</route>
+					<class>ajaxloader</class>
+					<resource>authenticated</resource>
+				</logout>
+			</pages>
+		</users>
 		<social-apis>
 			<label>Social APIs</label>
 			<controller>social</controller>

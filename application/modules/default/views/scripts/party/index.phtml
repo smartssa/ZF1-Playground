@@ -1,2 +1,13 @@
-<br /><br /><center>View script for controller <b>Party</b> and script/action name <b>index</b></center>
 
+<h1>Server Status Summary</h1>
+
+<ul>
+<?php foreach ($this->pants as $server) : ?>
+
+<li><?php echo str_replace(array('http://', '/server-status?auto'), '', $server->getStatusUrl());?><br/>
+Workers: <?php echo $server->getBusyWorkers(); ?> of <?php echo $server->getConfiguredWorkerLimit();?> --
+Total hits: <?php echo $server->getTotalAccesses(); ?> -  
+Total KBytes: <?php echo $server->getTotalkBytes();?>
+</li>
+<?php endforeach; ?>
+</ul>
