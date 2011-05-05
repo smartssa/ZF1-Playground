@@ -39,26 +39,30 @@ class IndexController extends PG_Controller_Action
     {
 
     }
-    
+
     public function sessionsAction()
     {
-        
+
     }
-    
-    public function badgesAction() 
+
+    public function badgesAction()
     {
         $badges = new DEC_Badges(1);
         $this->view->badges = $badges;
     }
 
-    public function eventTriggerAction() {
+    public function eventTriggerAction()
+    {
         // ajax shit.
         $event = new DEC_Badges_Events();
         $event->triggerEvent(1, (int)$this->_request->getParam('id'), false, $this->_request->getParam('extra'));
     }
-    
-    public function checkBadges() {
+
+    public function checkBadges()
+    {
         // return a badges thing
+        $badges = new DEC_Badges(1);
+        $this->view->badges = $badges->getRecentBadges();
     }
 }
 

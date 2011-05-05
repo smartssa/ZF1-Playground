@@ -37,8 +37,8 @@ for easy use:</p>
 <pre class="code">
 <code class="php">
 protected function _initRegisterLogger() {
-    $this->bootstrap('Log');
-    $logger = $this->getResource('Log');
+    $this-&gt;bootstrap('Log');
+    $logger = $this-&gt;getResource('Log');
     Zend_Registry::set('Zend_Log', $logger);
 }
 </code>
@@ -49,12 +49,12 @@ can just see the logging items.</p>
 <pre class="code">
 <code class="php">
 [production]
-; the operand param doesn't allow for y > 4 & y < 7 so we need multiple writers.
+; the operand param doesn't allow for y &gt; 4 &amp; y &lt; 7 so we need multiple writers.
 resources.log.production.writerName = "Stream"
 resources.log.production.writerParams.stream = APPLICATION_PATH "/logs/production-critical.log"
 resources.log.production.filterName = "Priority"
 resources.log.production.filterParams.priority = 3
-resources.log.production.filterParams.operand  = "<"
+resources.log.production.filterParams.operand  = "&lt;"
 resources.log.production1.writerName = "Stream"
 resources.log.production1.writerParams.stream = APPLICATION_PATH "/logs/production-errors.log"
 resources.log.production1.FilterName = "Priority"
