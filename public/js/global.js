@@ -22,7 +22,17 @@ $(function() {
 			});
 		});
 		return false;
-	})
+	});
+	
+	$('button[id^="button_"]').click(function(e) {
+		// ajax request to trigger an event for the button.
+		$.ajax( {
+			url: '/index/event-trigger/id/1/extra/' + $(this).attr('id'),
+			success: function(data) {
+				$("#append_me").append(data);
+			}
+		});
+	});
 });
 
 // $(function() {
