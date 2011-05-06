@@ -58,10 +58,14 @@ class IndexController extends PG_Controller_Action
         $event->triggerEvent(1, (int)$this->_request->getParam('id'), false, $this->_request->getParam('extra'));
     }
 
-    public function checkBadges()
+    public function checkBadgesAction()
     {
         // return a badges thing
         $badges = new DEC_Badges(1);
+        Zend_Debug::dump($badges->getRecentBadges());
+        Zend_Debug::dump($badges->getPreviousBadges());
+        Zend_Debug::dump($badges->getAllBadges());
+        
         $this->view->badges = $badges->getRecentBadges();
     }
 }
