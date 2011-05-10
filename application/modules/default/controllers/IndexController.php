@@ -55,7 +55,7 @@ class IndexController extends PG_Controller_Action
     {
         // ajax shit.
         $event = new DEC_Badges_Events();
-        $event->triggerEvent(1, (int)$this->_request->getParam('id'), false, $this->_request->getParam('extra'));
+        $event->triggerEvent(1, (int)$this->_request->getParam('id'), $this->_request->getParam('extra'));
     }
 
     public function checkBadgesAction()
