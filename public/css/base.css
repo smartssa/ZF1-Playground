@@ -1,6 +1,7 @@
 html {
 	font-family: Arial, Verdana, Tahoma;
 }
+
 body {
 	font-size: 12pt;
 }
@@ -65,6 +66,7 @@ td {
 #header ul {
 	height: 2em;
 }
+
 #header ul li {
 	display: inline;
 	padding: 10px;
@@ -94,4 +96,106 @@ ul {
 /* goofy classes */
 .float-left {
 	float: left;
+}
+
+/* anything slider */
+.anythingSlider {
+	width: 525px;
+	height: 450px;
+	position: relative;
+	margin: 0 auto 0px;
+}
+
+.anythingSlider .wrapper {
+	width: 525px;
+	overflow: auto;
+	height: 450px;
+	margin: 0 0px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.anythingSlider .wrapper h1 {
+	font-size: 30px;
+	margin-top: 20px;
+	text-align: center
+}
+
+.anythingSlider .wrapper h2 {
+	font-size: 24px;
+	font-weight: bold;
+	margin-bottom: 0.8em;
+	color: #0090ff;
+}
+
+.anythingSlider .wrapper  a {
+
+}
+
+.anythingSlider .wrapper ul {
+	width: 9999px;
+	list-style: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-top: 0px solid #e0a213;
+	border-bottom: 0px solid #e0a213;
+	margin: 0;
+}
+
+.anythingSlider ul li {
+	display: block;
+	float: left;
+	padding: 0;
+	height: 500px;
+	width: 525px;
+	margin: 0;
+	padding: 0px;
+	color: #000;
+	line-height: 25px
+}
+
+.anythingSlider .arrow {
+	display: block;
+	height: 43px;
+	width: 44px;
+	text-indent: -9999px;
+	position: absolute;
+	top: 125px;
+	cursor: pointer;
+}
+
+.anythingSlider .forward {
+	background-position: top right;
+	right: -44px;
+}
+
+.anythingSlider .back {
+	background-position: 0 0;
+	left: -44px;
+}
+
+.anythingSlider .forward:hover {
+	background-position: bottom right;
+}
+
+.anythingSlider .back:hover {
+	background-position: 0 -43px;
+}
+
+.anythingSlider .wrapper ul ul {
+	position: static;
+	margin: 0;
+	background: none;
+	overflow: visible;
+	width: auto;
+	border: 0;
+}
+
+.anythingSlider .wrapper ul ul li {
+	float: none;
+	height: auto;
+	width: auto;
+	background: none;
 }

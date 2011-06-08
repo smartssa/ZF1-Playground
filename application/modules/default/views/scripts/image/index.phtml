@@ -1,0 +1,31 @@
+<h1>Images tagged with #summer</h1>
+<h3>Some Images May Be Offensive! :)</h3>
+
+<div id="imageholder">
+
+	<div class="anythingSlider">
+
+		<div class="wrapper">
+			<ul>
+				<!--  to be populated  -->
+			</ul>
+		</div>
+
+	</div>
+	<!-- END AnythingSlider -->
+</div>
+
+<script type="text/javascript">
+$(function() {
+	// populate the anything slider with stuff from the thing
+	$.ajax({ url : 'http://playground.localhost/ajax/get-image-list',
+			dataType: 'json',
+			success: function (data) {
+				for (i in data) {
+					$('div#imageholder div.anythingSlider div.wrapper>ul').append('<li><img width="525" src="' + data[i].imagename + '" /><br/>' + data[i].text + '</li>');
+				}
+				startSlider();
+			}
+	});
+});
+</script>

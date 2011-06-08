@@ -1,3 +1,5 @@
-#Sat Oct 23 16:29:08 EDT 2010
+#Tue Jun 07 15:15:11 EDT 2011
 eclipse.preferences.version=1
 include_path=0;/Playground\u00052;/Zend Framework (Current)
+phpVersion=php5.3
+use_asp_tags_as_php=false
