@@ -9,7 +9,17 @@ namespace WebSocket;
  */
 class Connection
 {
+    /**
+     * Enter description here ...
+     * @var Server
+     */
     private $server;
+    
+    
+    /**
+     * Enter description here ...
+     * @var Socket
+     */
     private $socket;
     private $handshaked = false;
     private $application = null;	
@@ -19,6 +29,8 @@ class Connection
 	private $connectionId = null;
 	
 	public $waitingForData = false;
+	public $hixie          = false;
+	
 	private $_dataBuffer = '';
 
 
@@ -32,7 +44,7 @@ class Connection
 		$tmp = explode(':', $socketName);		
 		$this->ip = $tmp[0];
 		$this->port = $tmp[1];		
-		$this->connectionId = md5($this->ip . $this->port . spl_object_hash($this));		
+		$this->connectionId = md5($this->ip . $this->port . spl_object_hash($this));
 
 		$this->log('Connected');
     }
@@ -100,13 +112,15 @@ class Connection
         }
 
         if ($securityResponse !== '') {
+        	// this is a hixie handshake.
         	$this->log('got security response for safari keys');
             $response  = "HTTP/1.1 101 Web Socket Protocol Handshake\r\n" .
                 "Upgrade: WebSocket\r\n" .
                 "Connection: Upgrade\r\n" .
                 "Sec-WebSocket-Origin: " . $headers['Origin'] . "\r\n" .
                 "Sec-WebSocket-Location: ws://" . $headers['Host'] . '/' . substr($path, 1) . "\r\n" .
-                "\r\n".$securityResponse;        
+                "\r\n".$securityResponse;
+            $this->hixie = true;
         } else {
 			// check for supported websocket version:		
 			if($headers['Sec-WebSocket-Version'] < 6)
@@ -159,10 +173,11 @@ class Connection
 			$response.= "Connection: Upgrade\r\n";
 			$response.= "Sec-WebSocket-Accept: " . $secAccept . "\r\n";
 			$response.= "Sec-WebSocket-Protocol: " . substr($path, 1) . "\r\n\r\n";
+			$this->server->log("socket: " . $this->socket);
+			$this->hixie = false;
 		
 		}
 
-$this->log($response);
 		if(false === ($this->server->writeBuffer($this->socket, $response)))
 		{
 			return false;
@@ -230,7 +245,12 @@ $this->log($response);
 			$this->waitingForData = false;
 		}
 		
-		$decodedData = $this->hybi10Decode($data);		
+		if ($this->hixie) {
+		// if my connection is hixie, decode it special.
+			$decodedData = $this->hixieDecode($data);
+		} else {
+			$decodedData = $this->hybi10Decode($data);
+		}		
 		
 		if($decodedData === false)
 		{
@@ -287,7 +307,12 @@ $this->log($response);
     
     public function send($payload, $type = 'text', $masked = true)
     {		
-		$encodedData = $this->hybi10Encode($payload, $type, $masked);			
+    	if ($this->hixie) {
+	    	// if my socket is hixie, encode it special.
+	    	$encodedData = $this->hixieEncode($payload);
+    	} else {
+			$encodedData = $this->hybi10Encode($payload, $type, $masked);
+    	}			
 		if(!$this->server->writeBuffer($this->socket, $encodedData))
 		{
 			$this->server->removeClientOnError($this);
@@ -359,6 +384,10 @@ $this->log($response);
         $this->server->log('[client ' . $this->ip . ':' . $this->port . '] ' . $message, $type);
     }
 	
+    private function hixieEncode($payload) {
+    	return chr(0) . $payload . chr(255);	
+    }
+    
 	private function hybi10Encode($payload, $type = 'text', $masked = true)
 	{
 		$frameHead = array();
@@ -444,6 +473,10 @@ $this->log($response);
 		return $frame;
 	}
 	
+	private function hixieDecode($data) {
+		return substr($data, 1, strlen($data) - 2);
+	}
+
 	private function hybi10Decode($data)
 	{
 		$payloadLength = '';
@@ -452,7 +485,7 @@ $this->log($response);
 		$decodedData = array();
 		
 		// estimate frame type:
-		$firstByteBinary = sprintf('%08b', ord($data[0]));		
+		$firstByteBinary = sprintf('%08b', ord($data[0]));
 		$secondByteBinary = sprintf('%08b', ord($data[1]));
 		$opcode = bindec(substr($firstByteBinary, 4, 4));
 		$isMasked = ($secondByteBinary[0] == '1') ? true : false;
