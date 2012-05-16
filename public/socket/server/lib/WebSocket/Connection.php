@@ -70,6 +70,7 @@ class Connection
 	private function handshake($data)
 	{
 		$this->log('Performing handshake');
+		$this->log($data);
 		$lines = preg_split("/\r\n/", $data);
 		// $this->log(print_r($lines, true));
 		// check for valid http-header:

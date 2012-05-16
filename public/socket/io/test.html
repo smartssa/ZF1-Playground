@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>WebSocket</title>
+<style type="text/css">
+html,body {
+	font: normal 0.9em arial, helvetica;
+}
+
+#log {
+	width: 600px;
+	height: 300px;
+	border: 1px solid #7F9DB9;
+	overflow: auto;
+}
+
+#msg {
+	width: 400px;
+}
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"
+	type="text/javascript"></script>
+<script src="//cdn.socket.io/stable/socket.io.js"></script>
+
+</head>
+<body onload="init()">
+<h3>No idea</h3>
+<div id="log"></div>
+<input id="msg" type="textbox" onkeypress="onkey(event)" />
+<button onclick="send()">Send</button>
+<button onclick="quit()">Quit</button>
+<button onclick="reconnect()">Reconnect</button>
+<script>
+var socket;
+$(function() {
+    socket = new io.Socket('localhost',{ port: 19100, resource: 'demo' });
+    socket.connect();
+
+    // Add a connect listener
+    socket.on('connect',function() {
+        console.log('Client has connected to the server!');
+    });
+    // Add a connect listener
+    socket.on('message',function(data) {
+        console.log('Received a message from the server!',data);
+    });
+    // Add a disconnect listener
+    socket.on('disconnect',function() {
+        console.log('The client has disconnected!');
+    });
+
+});
+
+// Sends a message to the server via sockets
+function sendMessageToServer(message) {
+    socket.send(message);
+}
+
+function log(msg){ $("log").innerHTML+="<br>"+msg; }
+</script>
+</body>
+</html>
+

