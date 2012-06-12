@@ -28,14 +28,22 @@ while ($sponsorrow = mysql_fetch_assoc($sponsorset)) {
 		$imgset = mysql_query($imgsql);
 		if ($imgset) {
 			$imgmeta = mysql_fetch_assoc($imgset);
-			$imgmeta = unserialize($imgmeta['meta_value']);
-			if (is_array($imgmeta)) {
-				$path = dirname($imgmeta['file']);
+			$imgdata = unserialize($imgmeta['meta_value']);
+			if ($imgdata) {
+				$path = dirname($imgdata['file']);
 				$obj = new stdClass();
 				$obj->id      = $sponsorrow['id'];
 				$obj->title   = $sponsorrow['name'];
 				$obj->url     = $sponsorrow['sponsor_website'];
-				$obj->img_url = 'http://www.luminato.com/' . $path .'/'. $imgmeta['sizes']['post-thumb']['file']; // 64x64.. gross.
+				// $path
+				if (isset($imgdata['sizes']['post-thumb']['file'])) {
+					$file = $path . '/' . $imgdata['sizes']['post-thumb']['file'];
+				} else {
+					$file = $imgdata['file'];
+				}
+				$obj->img_url = 'http://www.luminato.com/wp-content/uploads/' . $file;
+
+				// 64x64.. gross.
 				$sponsorreturn[] = $obj;
 			}
 		}

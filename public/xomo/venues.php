@@ -9,27 +9,46 @@
 
 require_once 'common.php';
 
+/** class stubs for unserializing **/
+
+class Mappress_Map {}
+class Mappress_Poi {}
 
 // get locations
-$locationsql = "SELECT * FROM wp_geo_mashup_locations";
+$locationsql = "SELECT * FROM wp_mappress_maps";
 $locationset = mysql_query($locationsql, $db);
 
 $locationreturn = array();
+
+$names = array();
+$ids   = array();
 while ($locationrow = mysql_fetch_assoc($locationset)) {
 	// get images attached to locations
 	$obj = new stdClass();
-	$obj->id       = $locationrow['id'];
-	$obj->name     = $locationrow['saved_name'];
-	$obj->street   = $locationrow['address'];
-	$obj->city     = $locationrow['locality_name'];
-	$obj->country  = $locationrow['country_code'];
-	$obj->province = $locationrow['admin_code'];
-	$obj->lat      = $locationrow['lat'];
-	$obj->lng      = $locationrow['lng'];
-	$locationreturn[] = $obj;
+	$obj->id       = $locationrow['mapid'];
+	
+	$stuff = unserialize($locationrow['obj']);
+	$obj->name     = $stuff->pois[0]->title;
+	$obj->street   = $stuff->pois[0]->address;
+	$obj->city     = 'Toronto';
+	$obj->country  = 'CA';
+	$obj->province = 'ON';
+	
+    $obj->lat      = $stuff->pois[0]->point['lat'];
+    $obj->lng      = $stuff->pois[0]->point['lng'];
+    if (! in_array($obj->name, $names) && $obj->name != null ) {
+	    $locationreturn[] = $obj; 
+        $names[]          = $obj->name;
+        $parentId         = $obj->id;
+    } else {
+        // ignore it, track it
+        if ($parentId != null) { 
+            $ids[$obj->id]    = $parentId;
+        }
+    }
 }
 
-$return = array('venues' => $locationreturn);
+$return = array('venues' => $locationreturn, 'duplicate_mapping' => $ids);
 // spit out json
 
 echo json_encode($return);

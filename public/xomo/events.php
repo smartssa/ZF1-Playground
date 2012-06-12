@@ -27,7 +27,8 @@ while ($eventsrow = mysql_fetch_assoc($eventsset)) {
 	$obj->id          = $eventsrow['ID'];
 	$obj->name        = $eventsrow['post_title'];
 	$obj->website_url = "http://www.luminato.com/events/" . $eventsrow['post_name'];
-	$obj->description = $eventsrow['post_excerpt'] ?: $eventsrow['post_content'];
+	$content = $eventsrow['post_excerpt'];
+	$obj->description = $content;
 	// fetch image for this post (_thumnail_id) attachment
 	$thumbnailsql = "SELECT pm2.meta_value as value FROM wp_postmeta pm 
 			LEFT JOIN wp_posts p on (pm.meta_value = p.ID) 
@@ -40,21 +41,63 @@ while ($eventsrow = mysql_fetch_assoc($eventsset)) {
 		$img = unserialize($thumbnailrow['value']);
 		$path = dirname($img['file']);
 		$file = $img['sizes']['medium']['file'];
-		$obj->large_img_url = "http://www.luminato.com/events/" . $path . '/' . $file;
+		$obj->large_img_url = "http://www.luminato.com/wp-content/uploads/" . $path . '/' . $file;
+		$file = $img['sizes']['thumbnail']['file'];
+		$obj->small_img_url = "http://www.luminato.com/wp-content/uploads/" . $path . '/' . $file;
 	}
-	$catsql = "select `name` from wp_term_relationships tr 
-			left join wp_terms t on (tr.term_taxonomy_id = t.term_id)
-			left join wp_term_taxonomy tt on (tt.term_id = t.term_id)
-			where object_id = {$eventsrow['ID']} and tt.taxonomy = 'eventtype';";
+	// video url
+	$videosql = "SELECT meta_value FROM wp_postmeta WHERE post_id = {$eventsrow['ID']} AND meta_key = 'video_url' LIMIT 1";
+	$videoset = mysql_query($videosql);
+	$vidurls = array();
+	if ($videoset) {
+		$videorow = mysql_fetch_assoc($videoset);
+		$vals = unserialize($videorow['meta_value']);
+		if (is_array($vals)) {
+			foreach ($vals as $key => $vid) {
+				if (strlen($vid) > 10) {
+					$vidurls[] = 'http://youtu.be/' . $vid;
+				}
+			}
+		}
+	}
+	$obj->youtube_url = $vidurls;
+	// and audio attachments.
+	$obj->mp3_url = '';
+	$mp3sql = "SELECT guid FROM wp_posts WHERE post_parent = {$eventsrow['ID']} AND post_type = 'attachment' AND post_mime_type = 'audio/mpeg' LIMIT 1";
+	$mp3set = mysql_query($mp3sql);
+	// $mp3urls = array();
+	if ($mp3set) {
+		$mp3row = mysql_fetch_assoc($mp3set);
+		$obj->mp3_url = $mp3row['guid'];
+	}
+	// categories
+	$catsql = "SELECT tt.taxonomy, t.name FROM wp_term_relationships tr 
+		LEFT JOIN wp_term_taxonomy tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
+		LEFT JOIN wp_terms t ON (tt.term_id = t.term_id)
+		WHERE tr.object_id = {$eventsrow['ID']}";
 	$catset = mysql_query($catsql);
 	$categories = array();
+	$tags = array();
+	$french = false;
 	if ($catset) {
 		while ($catrow = mysql_fetch_assoc($catset)) {
-			$categories[] = $catrow['name'];
+			if ($catrow['name'] != 'EN' && $catrow['taxonomy'] == 'eventtype') {
+				$categories[] = $catrow['name'];
+			}
+			if ($catrow['taxonomy'] == 'post_tag') {
+				$tags[] = $catrow['name'];
+			}
+			if ($catrow['name'] == 'FR') {
+				$french = true;
+				break;
+			}
 		}
 	}
 	$obj->categories  = $categories; // fetch categories
-	$eventsreturn[] = $obj;
+	$obj->tags        = $tags;
+	if (! $french) {
+		$eventsreturn[] = $obj;
+	}
 }
 
 $return = array('events' => $eventsreturn);
