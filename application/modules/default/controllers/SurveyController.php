@@ -23,10 +23,12 @@ class SurveyController extends PG_Controller_Action
     public function indexAction()
     {
         $userId = 1; // to be gotten from auth.
+        
         $surveys = new DEC_Survey($userId, $this->view->url(array('controller' => 'survey', 'action' => 'survey-process')));
         $this->view->surveyTitle = $surveys->current()->title;
         // populate the form, if we were bounced from a save fail.
-        $this->view->surveyForm = $surveys->getSurveyForm(1);
+        $this->view->surveyForm = $surveys->getSurveyForm($this->_request->getParam('s_id', 1));
+        $this->view->surveys = $surveys;
     }
 
     public function surveyProcessAction() {
@@ -43,11 +45,16 @@ class SurveyController extends PG_Controller_Action
     }
     
     public function statsAction() {
-        
+        $surveys = new DEC_Survey();
+        $this->view->surveys = $surveys;
     }
     
-    public function manageAction() {
-        
+    public function managerAction() {
+        // default: list surveys
+        // if id is present, list questions
+        // if question is selected, list answers
+        $surveys = new DEC_Survey();
+        $this->view->surveys = $surveys;
     }
 }
 

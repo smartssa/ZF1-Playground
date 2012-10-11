@@ -1,0 +1,6 @@
+<h2>Pick a Survey</h2>
+<ul>
+<?php foreach ($this->surveys as $survey) : ?>
+<li><a href="<?php echo $this->url(array('s_id' => $survey->id));?>"><?php echo $survey->name; ?></a></li>
+<?php endforeach; ?>
+</ul>
