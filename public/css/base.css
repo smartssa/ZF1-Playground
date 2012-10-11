@@ -199,3 +199,42 @@ ul {
 	width: auto;
 	background: none;
 }
+
+/*FORMS DL, DT, DD TAGS LIST DATA*/
+dl {
+    margin-bottom: 10px;
+}
+
+dl dt {
+    float: left;
+    margin-right: 10px;
+    padding: 2px;
+    text-align: right;
+    width: 40%;
+    clear: both;
+}
+
+dl dd {
+    margin: 2px 0;
+    padding: 2px 0;
+}
+
+fieldset {
+    border: 1px solid white;
+}
+
+fieldset label {
+}
+
+legend {
+    font-size: 12pt;
+    margin-left: 6em;
+    border-bottom: 1px solid black;
+}
+textarea {
+	width: 40%;
+}
+input[type=text] {
+    width: 40%;
+}
+
