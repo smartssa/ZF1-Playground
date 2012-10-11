@@ -23,7 +23,7 @@ class SurveyController extends PG_Controller_Action
     public function indexAction()
     {
         $userId = 1; // to be gotten from auth.
-        
+
         $surveys = new DEC_Survey($userId, $this->view->url(array('controller' => 'survey', 'action' => 'survey-process')));
         $this->view->surveyTitle = $surveys->current()->title;
         // populate the form, if we were bounced from a save fail.
@@ -34,53 +34,55 @@ class SurveyController extends PG_Controller_Action
     public function surveyProcessAction() {
         $userId = 1; // to be gotten from auth.
         $surveys = new DEC_Survey($userId, $this->view->url(array('controller' => 'survey', 'action' => 'survey-process')));
-        
+
         // get id from form posting.
         $result = $surveys->saveSurveyForm($this->_request->getParam('s_id', 0), $this->_request->getPost());
-        
+
         var_dump($result);
         // if result is true, go to thanks
         // if result is false, go to original page.
         // save post values, send off
     }
-    
+
     public function statsAction() {
         $surveys = new DEC_Survey();
         $this->view->surveys = $surveys;
         $id = $this->_request->getParam('s_id', 0);
-        
+
         if ($id > 0) {
             // we've got one!
-            
+
             // show questions, answers and stats.
         }
     }
-    
+
     public function managerAction() {
         // default: list surveys
         // if id is present, list questions
         // if question is selected, list answers
         $surveys = new DEC_Survey();
         $this->view->surveys = $surveys;
-        
-        $id = $this->_request->getParam('s_id', 0);
-        
+
+        $id   = $this->_request->getParam('s_id', 0);
+        $q_id = $this->_request->getParam('q_id', 0);
+
         if ($id > 0) {
             // we've got one!
-            
             if ($q_id > 0) {
                 // expanded question too!
+                // show an add-answer form!
+            } else {
+                // show an add a question form
+                // needs question, type.
             }
-            
-            // show an add a question form
         }
     }
-    
+
     public function saveAction() {
-    
+
     }
-    
+
     public function disableAction() {
-        
+
     }
 }
