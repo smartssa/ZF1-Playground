@@ -41,5 +41,13 @@ class SurveyController extends PG_Controller_Action
         // if result is false, go to original page.
         // save post values, send off
     }
+    
+    public function statsAction() {
+        
+    }
+    
+    public function manageAction() {
+        
+    }
 }
 
