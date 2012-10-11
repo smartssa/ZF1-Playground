@@ -47,6 +47,13 @@ class SurveyController extends PG_Controller_Action
     public function statsAction() {
         $surveys = new DEC_Survey();
         $this->view->surveys = $surveys;
+        $id = $this->_request->getParam('s_id', 0);
+        
+        if ($id > 0) {
+            // we've got one!
+            
+            // show questions, answers and stats.
+        }
     }
     
     public function managerAction() {
@@ -55,6 +62,25 @@ class SurveyController extends PG_Controller_Action
         // if question is selected, list answers
         $surveys = new DEC_Survey();
         $this->view->surveys = $surveys;
+        
+        $id = $this->_request->getParam('s_id', 0);
+        
+        if ($id > 0) {
+            // we've got one!
+            
+            if ($q_id > 0) {
+                // expanded question too!
+            }
+            
+            // show an add a question form
+        }
+    }
+    
+    public function saveAction() {
+    
+    }
+    
+    public function disableAction() {
+        
     }
 }
-
