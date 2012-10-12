@@ -51,8 +51,8 @@ class SurveyController extends PG_Controller_Action
 
         if ($id > 0) {
             // we've got one!
-
             // show questions, answers and stats.
+            $surveys->getStats($id);
         }
     }
 
