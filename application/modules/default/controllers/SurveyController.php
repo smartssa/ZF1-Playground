@@ -47,13 +47,15 @@ class SurveyController extends PG_Controller_Action
     public function statsAction() {
         $surveys = new DEC_Survey();
         $this->view->surveys = $surveys;
-        $id = $this->_request->getParam('s_id', 0);
-
+        $id   = $this->_request->getParam('s_id', 0);
+        $u_id = $this->_request->getParam('u_id', null);
+        
         if ($id > 0) {
             // we've got one!
             // show questions, answers and stats.
-            $surveys->getStats($id);
+            $stats = $surveys->getStats($id, $u_id);
         }
+        $this->view->stats = $stats;
     }
 
     public function managerAction() {
