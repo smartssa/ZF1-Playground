@@ -38,6 +38,18 @@ class SurveyController extends PG_Controller_Action
         // get id from form posting.
         $result = $surveys->saveSurveyForm($this->_request->getParam('s_id', 0), $this->_request->getPost());
 
+        // survey can return with multiple states.
+        if ($result & DEC_Survey::STATUS_FAIL_FORM) {
+            echo "form failed.";
+        }
+        if ($result & DEC_Survey::STATUS_FAIL_ANSWER) {
+            echo "Answers failed.";
+        }
+        if ($result & DEC_Survey::STATUS_FAIL_DB) {
+            echo "data save failed.";
+        }
+
+
         var_dump($result);
         // if result is true, go to thanks
         // if result is false, go to original page.
@@ -49,7 +61,7 @@ class SurveyController extends PG_Controller_Action
         $this->view->surveys = $surveys;
         $id   = $this->_request->getParam('s_id', 0);
         $u_id = $this->_request->getParam('u_id', null);
-        
+
         if ($id > 0) {
             // we've got one!
             // show questions, answers and stats.
@@ -77,6 +89,8 @@ class SurveyController extends PG_Controller_Action
                 // show an add a question form
                 // needs question, type.
             }
+        } else {
+            // add a survey?
         }
     }
 
