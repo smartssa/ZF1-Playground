@@ -37,7 +37,9 @@ class SurveyController extends PG_Controller_Action
 
         // get id from form posting.
         $result = $surveys->saveSurveyForm($this->_request->getParam('s_id', 0), $this->_request->getPost());
-
+        
+        var_dump($result);
+        
         // survey can return with multiple states.
         if ($result & DEC_Survey::STATUS_FAIL_FORM) {
             echo "form failed.";
@@ -50,7 +52,6 @@ class SurveyController extends PG_Controller_Action
         }
 
 
-        var_dump($result);
         // if result is true, go to thanks
         // if result is false, go to original page.
         // save post values, send off
